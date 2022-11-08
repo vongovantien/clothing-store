@@ -1,5 +1,8 @@
+import { Box, CircularProgress } from '@mui/material';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import './App.css';
@@ -12,12 +15,14 @@ import NotFound from './pages/NotFound';
 import Product from './pages/Product';
 import ProductDetail from './pages/ProductDetail';
 import { SignUp } from './pages/SignUp';
+import useGaTracker from './useGaTracker';
 
 const ProductPage = lazy(() => import('./pages/admin/page/ProductPage'));
 function App() {
-
+  useGaTracker();
   return (
     <>
+      <ToastContainer />
       <BrowserRouter>
         <NavBar />
         <Suspense
@@ -38,7 +43,10 @@ function App() {
               <Route
                 path="product"
                 element={(
-                  <Suspense fallback={<>Loading Product ...</>}>
+                  <Suspense fallback={
+                    <Box sx={{ display: 'flex' }}>
+                      <CircularProgress />
+                    </Box>}>
                     <ProductPage />
                   </Suspense>
                 )}

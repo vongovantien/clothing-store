@@ -2,8 +2,8 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl,
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import api, { endpoint } from '../../../endpoints/api';
 import { createProduct } from '../../../features/products/productSlice';
+import categoryService from '../../../services/category.service';
 
 const FormAddProduct = ({ show, handleOpenForm }) => {
     const [categoryList, setCategoryList] = useState([]);
@@ -27,7 +27,7 @@ const FormAddProduct = ({ show, handleOpenForm }) => {
     }, [])
 
     const getAllCategory = async () => {
-        let res = await api.get(endpoint.category)
+        let res = await categoryService.getAll()
         setCategoryList(res.data)
     }
 
@@ -56,7 +56,7 @@ const FormAddProduct = ({ show, handleOpenForm }) => {
 
     return (
         <div>
-            <Dialog disablePortal maxWidth='md' fullWidth="true" open={show}>
+            <Dialog disablePortal maxWidth='md' fullWidth open={show}>
                 <DialogTitle>Thêm mới sản phẩm</DialogTitle>
                 <DialogContent>
                     <Paper>

@@ -1,20 +1,18 @@
+
+
+
 export const products = [{
     id: 1,
     title: "abc",
-    url: "https://picsum.photos/200/300"
+    url: "/assets/img/banner-1.png"
 },
 {
     id: 2,
     title: "abc",
-    url: "https://picsum.photos/200/300"
+    url: "/assets/img/banner-2.png"
 },
 {
     id: 3,
     title: "abc",
-    url: "https://picsum.photos/200/300"
-},
-{
-    id: 4,
-    title: "abc",
-    url: "https://picsum.photos/200/300"
+    url: "/assets/img/banner-3.png"
 }]

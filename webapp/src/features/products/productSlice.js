@@ -15,7 +15,7 @@ export const getAllProduct = createAsyncThunk(
 );
 
 export const createProduct = createAsyncThunk(
-    "tutorials/CreateProduct",
+    "products/CreateProduct",
     async (data) => {
         const res = await productService.create(data);
         return res.data;
@@ -26,6 +26,16 @@ export const getProductByID = createAsyncThunk(
     "products/GetByID",
     async () => {
         const res = await productService.getProductByID();
+        return res.data;
+    }
+);
+
+export const getHotProduct = createAsyncThunk(
+    "products/GetHotProduct",
+    async (pageSize, pageNumber) => {
+        console.log(pageSize)
+        console.log(pageNumber)
+        const res = await productService.getHotProduct(pageSize, pageNumber);
         return res.data;
     }
 );
@@ -54,7 +64,8 @@ export const productSlice = createSlice({
             return [...action.payload];
         },
         [createProduct.fulfilled]: (state, action) => {
-            state.push(action.payload);
+            console.log(state)
+            state.products.push(action.payload);
         },
         [updateProduct.fulfilled]: (state, action) => {
             const index = state.findIndex(tutorial => tutorial.id === action.payload.id);
@@ -67,9 +78,9 @@ export const productSlice = createSlice({
             let index = state.findIndex(({ id }) => id === action.payload.id);
             state.splice(index, 1);
         },
-        // [deleteAllTutorials.fulfilled]: (state, action) => {
-        //     return [];
-        // },
+        [deleteProduct.fulfilled]: (state, action) => {
+            return [];
+        },
         // [findTutorialsByTitle.fulfilled]: (state, action) => {
         //     return [...action.payload];
         // },

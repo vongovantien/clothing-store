@@ -19,15 +19,22 @@ namespace WebAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var data = await _repository.ProductRepository.GetAllAsync();
             return Ok(data);
         }
 
-        [HttpGet]
+        [HttpGet("GetProductPaging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] PagingParameters param)
+        {
+            var data = await _repository.ProductRepository.GetAllPaging(param);
+            return Ok(data);
+        }
+
+        [HttpGet("GetHotProduct")]
+        public async Task<IActionResult> GetHotProduct([FromQuery] PagingParameters param)
         {
             var data = await _repository.ProductRepository.GetAllPaging(param);
             return Ok(data);

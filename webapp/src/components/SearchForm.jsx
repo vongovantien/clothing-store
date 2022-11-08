@@ -1,6 +1,7 @@
 import { MenuItem, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import { default as React, useState } from 'react';
+import { default as React } from 'react';
+import { PAGE_SIZE, SORT_BY } from '../utils/constants/ProductContants';
 
 const pageSizes = [5, 10, 15, 25, 40]
 const sortBies = [{
@@ -13,28 +14,13 @@ const sortBies = [{
 },
 {
     title: "Giá, thấp đến cao",
-    value: "Name ASC"
+    value: "Price ASC"
 },
 {
     title: "Giá, cao đến thấp",
-    value: "Name DESC"
+    value: "Price DESC"
 }]
-const SearchForm = () => {
-    const [pageSize, setPageSize] = useState(5)
-    const [sortBy, setSortBy] = useState("Name, A đến Z")
-
-    const handleChange = (event, type) => {
-        switch (type) {
-            case "sort":
-                setSortBy(event.target.value);
-                break;
-            case "pageSize":
-                setPageSize(event.target.value);
-                break;
-            default:
-                break;
-        }
-    };
+const SearchForm = (props) => {
     return (
         <>
             <Box
@@ -49,8 +35,8 @@ const SearchForm = () => {
                     id="outlined-select-currency"
                     select
                     label="Item per Page"
-                    value={pageSize}
-                    onChange={e => handleChange(e, "pageSize")}
+                    value={props.pageSize}
+                    onChange={e => props.handleSearch(e.target.value, PAGE_SIZE)}
                 >
                     {pageSizes.map((option, index) => (
                         <MenuItem key={index} value={option}>
@@ -62,8 +48,8 @@ const SearchForm = () => {
                     id="outlined-select-currency"
                     select
                     label="Sort By"
-                    value={sortBy}
-                    onChange={e => handleChange(e, "sort")}
+                    value={props.sortBy}
+                    onChange={e => props.handleSearch(e.target.value, SORT_BY)}
                 >
                     {sortBies.map((option, index) => (
                         <MenuItem key={index} value={option.value}>

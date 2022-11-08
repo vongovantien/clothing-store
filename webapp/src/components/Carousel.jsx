@@ -28,39 +28,33 @@ export default class CustomArrows extends Component {
         const settings = {
             dots: true,
             infinite: true,
-            slidesToShow: 3,
+            speed: 500,
+            slidesToShow: 1,
             slidesToScroll: 1,
-            nextArrow: <SampleNextArrow />,
-            prevArrow: <SamplePrevArrow />
+            autoplay: true,
+            autoplaySpeed: 2000,
+            cssEase: "linear",
+            fade: true,
         };
 
         const images = [{
             id: 1,
-            url: "https://picsum.photos/200/300"
+            url: "/img/banner-1.png"
         },
         {
             id: 2,
-            url: "https://picsum.photos/200/300"
+            url: "/img/banner-2.jpg"
         },
         {
             id: 3,
-            url: "https://picsum.photos/200/300"
-        },
-        {
-            id: 4,
-            url: "https://picsum.photos/200/300"
-        },
-        {
-            id: 5,
-            url: "https://picsum.photos/200/300"
-        }
-        ]
+            url: "img/banner-3.jpg"
+        }]
         return (
             <div>
                 <Slider {...settings}>
-                    {images && images.map(item =>
+                    {!!images && images.map(item =>
                         <div key={item.id}>
-                            <img src={item.url} alt={item.id} />
+                            <img src={item.url} alt={item.id} style={{ width: "100%" }} />
                         </div>
                     )}
                 </Slider>

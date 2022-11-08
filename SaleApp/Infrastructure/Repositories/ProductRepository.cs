@@ -14,9 +14,18 @@ namespace Infrastructure.Repositories
             _mapper = mapper;
         }
 
-        public Task<ProductViewModel> GetAllPaging(PagingParameters param)
+        public async Task<PagedResponse<List<Product>>> GetAllPaging(PagingParameters param)
         {
-            throw new NotImplementedException();
+            var pagedData = await _dbContext.Products.Skip((param.PageNumber - 1) * param.PageSize).Take(param.PageSize).ToListAsync();
+            var totalCount = await _dbContext.Products.CountAsync();
+            return new PagedResponse<List<Product>>(pagedData, param.PageNumber, param.PageSize, totalCount);
+        }
+
+        public async Task<PagedResponse<List<Product>>> GetHotProduct(PagingParameters param)
+        {
+            var pagedData = await _dbContext.Products.Skip((param.PageNumber - 1) * param.PageSize).Take(param.PageSize).ToListAsync();
+            var totalCount = await _dbContext.Products.CountAsync();
+            return new PagedResponse<List<Product>>(pagedData, param.PageNumber, param.PageSize, totalCount);
         }
 
         public async Task<ProductViewModel> GetById(int id)

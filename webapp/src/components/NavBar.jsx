@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import productService from '../services/product.service';
+import menuService from '../services/menu.service';
 // const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -29,8 +29,7 @@ export default function NavBar() {
     const getMenu = async () => {
         try {
             //let result = await api.get(endpoint["menu"]);
-            let result = await productService.getAll();
-            console.log(result);
+            let result = await menuService.getAll();
             setPages(result.data)
         } catch (error) {
             console.log(error);

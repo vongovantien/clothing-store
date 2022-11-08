@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models;
-using WebAPI.ViewModel;
+using Domain.ViewModel;
 
 namespace WebAPI.Extensions.AutoMapper
 {

@@ -1,7 +1,15 @@
 import http from "../endpoints/api";
 class ProductService {
     getAll() {
-        return http.get("/Product");
+        return http.get("/Product/GetAll");
+    }
+
+    getProductPaging(pageSize, pageNumber) {
+        return http.get(`/Product/GetProductPaging?pageSize=${pageSize}&pageNumber=${pageNumber}`);
+    }
+
+    getHotProduct(pageSize, pageNumber) {
+        return http.get(`/Product/GetHotProduct?pageSize=${pageSize}&pageNumber=${pageNumber}`);
     }
 
     get(id) {

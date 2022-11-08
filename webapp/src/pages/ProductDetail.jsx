@@ -1,7 +1,7 @@
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import api, { endpoint } from '../endpoints/api';
+import productService from '../services/product.service';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -14,7 +14,7 @@ const ProductDetail = () => {
     const getProductById = async (id) => {
         try {
             console.log(id)
-            let product = await api.get(endpoint.productDetail(id))
+            let product = await productService.getProductById(id);
             console.log(product.data);
             setProduct(product.data)
 

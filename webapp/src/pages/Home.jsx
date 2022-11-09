@@ -19,14 +19,17 @@ export const Home = () => {
 	}, [])
 
 	const getHotProductList = async () => {
-		dispatch(getHotProduct(pageSize, pageNumber))
+		dispatch(getHotProduct({ pageSize, pageNumber }))
 			.unwrap()
 			.then((res) => {
 				setProductList(res)
 			})
 			.catch(res => console.error(res))
 	};
+	const onHandlePaging = (evt, value) => {
+		console.log(value)
 
+	}
 	//tab
 	const [value, setValue] = React.useState('1');
 
@@ -49,12 +52,12 @@ export const Home = () => {
 							justifyItems="center"
 							style={{ marginTop: "80px" }}
 						>
-							{productList && productList.map(item =>
+							{!!productList.data && productList.data.map(item =>
 								<Grid key={item.id} item xs={12} sm={6} md={3}>
 									<ItemCard prop={item} />
 								</Grid>
 							)}
-							<Pagination count={10} color="primary" style={{ padding: "20px 0", margin: "0 auto" }} />
+							<Pagination count={productList.totalCount} color="primary" style={{ padding: "20px 0", margin: "0 auto" }} onChange={onHandlePaging} />
 						</Grid>
 					</Grid>
 				</Grid>
@@ -67,7 +70,6 @@ export const Home = () => {
 								<Tab label="Feature Product" value="3" />
 							</TabList>
 						</Box>
-
 						<TabPanel value="1">
 							<Grid container spacing={2}>
 								<Grid item xs={12}><Grid

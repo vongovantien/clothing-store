@@ -32,10 +32,9 @@ export const getProductByID = createAsyncThunk(
 
 export const getHotProduct = createAsyncThunk(
     "products/GetHotProduct",
-    async (pageSize, pageNumber) => {
-        console.log(pageSize)
-        console.log(pageNumber)
-        const res = await productService.getHotProduct(pageSize, pageNumber);
+    async (data) => {
+        console.log(data)
+        const res = await productService.getHotProduct(data.pageSize, data.pageNumber);
         return res.data;
     }
 );

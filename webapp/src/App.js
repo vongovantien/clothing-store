@@ -15,11 +15,10 @@ import NotFound from './pages/NotFound';
 import Product from './pages/Product';
 import ProductDetail from './pages/ProductDetail';
 import { SignUp } from './pages/SignUp';
-import useGaTracker from './useGaTracker';
 
 const ProductPage = lazy(() => import('./pages/admin/page/ProductPage'));
 function App() {
-  useGaTracker();
+  //useGaTracker();
   return (
     <>
       <ToastContainer />

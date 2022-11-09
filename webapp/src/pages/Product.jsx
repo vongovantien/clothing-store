@@ -44,7 +44,7 @@ const Product = () => {
         }
     }
 
-    const handlePaging = async (event, value) => {
+    const handlePaging = (event, value) => {
         try {
             setNumberPage(value);
         }

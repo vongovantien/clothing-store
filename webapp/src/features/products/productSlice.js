@@ -30,6 +30,15 @@ export const getProductByID = createAsyncThunk(
     }
 );
 
+export const getProductPaging = createAsyncThunk(
+    "products/GetProductPaging",
+    async (data) => {
+        console.log(data)
+        const res = await productService.getHotProduct(data.pageSize, data.pageNumber);
+        return res.data;
+    }
+);
+
 export const getHotProduct = createAsyncThunk(
     "products/GetHotProduct",
     async (data) => {

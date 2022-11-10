@@ -4,6 +4,7 @@ using Domain.UnitOfWork;
 using Domain.ViewModel;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Extensions;
 
 namespace WebAPI.Controllers
 {
@@ -57,6 +58,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] Product model)
         {
+            HandleState hs = new HandleState();
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -75,7 +77,7 @@ namespace WebAPI.Controllers
                 throw;
             }
 
-            return Ok(model);
+            return Ok(hs);
         }
 
         [HttpGet("{id}")]

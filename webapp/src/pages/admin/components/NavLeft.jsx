@@ -58,7 +58,7 @@ export default function CustomizedAccordions() {
                     <Typography>Quản lí sản phẩm</Typography>
                 </AccordionSummary>
                 <MenuList>
-                    <Link to='product'><MenuItem>Danh sách sản phẩm</MenuItem></Link>
+                    <Link to='product' style={{ textDecoration: "none" }}><MenuItem>Danh sách sản phẩm</MenuItem></Link>
                 </MenuList>
             </Accordion>
             <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
@@ -66,9 +66,7 @@ export default function CustomizedAccordions() {
                     <Typography>Quản lí Đơn Hàng</Typography>
                 </AccordionSummary>
                 <MenuList>
-                    <MenuItem>Profile</MenuItem>
-                    <MenuItem>My account</MenuItem>
-                    <MenuItem>Logout</MenuItem>
+                    <Link to='product' style={{ textDecoration: "none" }}><MenuItem>Danh sách loại sản phẩm</MenuItem></Link>
                 </MenuList>
             </Accordion>
             <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>

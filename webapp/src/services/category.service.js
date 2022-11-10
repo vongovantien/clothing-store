@@ -2,7 +2,7 @@
 import http from "../endpoints/api";
 class CategoryService {
     getAll() {
-        return http.get("/Category/GetAll");
+        return http.get("/Category");
     }
 
     getProductPaging(body) {

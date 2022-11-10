@@ -5,30 +5,16 @@ namespace WebAPI.Extensions
     public class HandleState
     {
         public bool Success { get; private set; }
-
-
-
         public int Code { get; private set; }
-
-
-
         public Exception Exception { get; private set; }
-
-
-
         public object Message { get; private set; }
-
         public object Data { get; private set; }
-
-
         public HandleState()
         {
             Code = 200;
             Success = true;
             Data = Data;
         }
-
-
 
         public HandleState(string errMessage)
         {
@@ -37,16 +23,12 @@ namespace WebAPI.Extensions
             Exception = new Exception(errMessage);
         }
 
-
-
         public HandleState(Exception exception)
         {
             Code = 500;
             Success = false;
             Exception = exception;
         }
-
-
 
         public HandleState(int code, string errorMessage)
         {
@@ -55,15 +37,11 @@ namespace WebAPI.Extensions
             Exception = new Exception(errorMessage);
         }
 
-
-
         public HandleState(bool isSuccess, string errorMessage)
         {
             Success = isSuccess;
             Exception = new Exception(errorMessage);
         }
-
-
 
         public HandleState(bool isSuccess, object message)
         {
@@ -71,23 +49,17 @@ namespace WebAPI.Extensions
             Message = message;
         }
 
-
-
         public HandleState(bool isSuccess, LocalizedString message)
         {
             Success = isSuccess;
             Message = message;
         }
 
-
-
         public HandleState(LocalizedString message)
         {
             Success = false;
             Message = message;
         }
-
-
 
         public HandleState(object message)
         {

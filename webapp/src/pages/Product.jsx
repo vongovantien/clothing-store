@@ -5,7 +5,7 @@ import ItemCard from '../components/ItemCard';
 import NavLeft from '../components/NavLeft';
 import SearchForm from '../components/SearchForm';
 import productService from '../services/product.service';
-import { PAGE_SIZE, PRICE, SORT_BY } from '../utils/constants/ProductContants';
+import { ProductConstants } from '../utils/constants/ProductContants';
 
 const Product = () => {
     const [productList, setProductList] = useState([]);
@@ -29,13 +29,13 @@ const Product = () => {
 
     const handleSearch = async (value, type) => {
         switch (type) {
-            case PAGE_SIZE:
+            case ProductConstants.PAGE_SIZE:
                 setPageSize(value)
                 break;
-            case SORT_BY:
+            case ProductConstants.SORT_BY:
                 setSortBy(value)
                 break;
-            case PRICE:
+            case ProductConstants.PRICE:
                 console.log(value)
                 setPrice(value)
                 break;

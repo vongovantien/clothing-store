@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, FormControl, FormControl
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react';
-import { PRICE } from '../utils/constants/ProductContants';
+import { ProductConstants } from '../utils/constants/ProductContants';
 
 const NavLeft = (props) => {
     const [value, setValue] = useState('female');
@@ -28,7 +28,7 @@ const NavLeft = (props) => {
                             defaultValue="female"
                             name="radio-buttons-group"
                             value={props.price}
-                            onChange={e => props.handleSearch(e.target.value, PRICE)}
+                            onChange={e => props.handleSearch(e.target.value, ProductConstants.PRICE)}
                         >
                             <FormControlLabel value="< 100" control={<Radio />} label="Dưới 100,000" />
                             <FormControlLabel value="100 - 300" control={<Radio />} label="100,000 - 300,000" />

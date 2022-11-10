@@ -2,6 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl,
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { createProduct } from '../../../features/products/productSlice';
 import categoryService from '../../../services/category.service';
 
@@ -46,11 +47,31 @@ const FormAddProduct = ({ show, handleOpenForm }) => {
             .unwrap()
             .then((res) => {
                 console.log(res)
-                if (res.status === 200) {
+                if (res.code === 200) {
+                    toast.success("Add Product Successfully !!", {
+                        position: "bottom-right",
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        autoClose: 5000,
+                    });
                     handleOpenForm(!show)
+
                 }
             })
-            .catch(res => console.error(res))
+            .catch(res => toast.error("Something wrong !!", {
+                position: "bottom-right",
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                autoClose: 5000,
+            }))
     }
 
 

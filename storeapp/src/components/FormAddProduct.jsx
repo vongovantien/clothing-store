@@ -1,11 +1,11 @@
-import { createProduct } from '@features/products/productSlice';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { createProduct } from 'src/features/products/productSlice';
+import categoryService from 'src/services/category.service';
 import * as yup from 'yup';
-import categoryService from '../../services/category.service';
 
 const validationSchema = yup.object({
     email: yup

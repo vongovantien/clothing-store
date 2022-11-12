@@ -1,10 +1,10 @@
-import FormAddProduct from "@components/FormAddProduct";
-import StickyHeadTable from "@components/StickyHeadTable";
-import { getProductPaging } from "@features/products/productSlice";
 import { Button, Container, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ProductConstants } from "src/utils/constants/ProductContants";
+import { ProductConstants } from "src/constants/ProductConstants";
+import FormAddProduct from "../../../components/FormAddProduct";
+import StickyHeadTable from "../../../components/StickyHeadTable";
+import { getProductPaging } from "../../../features/products/productSlice";
 
 
 

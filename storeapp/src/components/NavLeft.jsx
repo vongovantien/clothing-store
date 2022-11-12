@@ -1,8 +1,7 @@
-import { Accordion, AccordionDetails, AccordionSummary, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
-
+import { ProductConstants } from '@constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { useState } from 'react';
-import { ProductConstants } from '../utils/constants/ProductContants';
+import { Accordion, AccordionDetails, AccordionSummary, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import { useState } from 'react';
 
 const NavLeft = (props) => {
     const [value, setValue] = useState('female');

@@ -1,11 +1,11 @@
 import { Grid, Pagination } from '@mui/material';
 import { Container } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ItemCard from '../components/ItemCard';
 import NavLeft from '../components/NavLeft';
 import SearchForm from '../components/SearchForm';
+import { ProductConstants } from '../constants/ProductConstants';
 import productService from '../services/product.service';
-import { ProductConstants } from '../utils/constants/ProductContants';
 
 const Product = () => {
     const [productList, setProductList] = useState([]);

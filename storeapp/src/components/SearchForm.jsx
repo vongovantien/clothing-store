@@ -1,7 +1,6 @@
 import { MenuItem, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import { default as React } from 'react';
-import { ProductConstants } from '../utils/constants/ProductContants';
+import { ProductConstants } from '../constants/ProductConstants';
 
 const pageSizes = [5, 10, 15, 25, 40]
 const sortBies = [{

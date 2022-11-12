@@ -140,8 +140,6 @@ export default function NavBar() {
                                     {page.name}
                                 </Button>
                             </Link>
-
-
                         ))}
                     </Box>
 

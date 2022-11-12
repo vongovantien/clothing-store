@@ -10,18 +10,6 @@ import * as React from 'react';
 import { ProductConstants } from '../utils/constants/ProductContants';
 
 export default function StickyHeadTable(props) {
-    // const [page, setPage] = React.useState(0);
-    // const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
-
-    // const handleChangeRowsPerPage = (event) => {
-    //     setRowsPerPage(+event.target.value);
-    //     setPage(0);
-    // };
-
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: 440 }}>
@@ -40,7 +28,7 @@ export default function StickyHeadTable(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.rows
+                        {props.rows && props.rows.slice(props.pageNumber * props.pageSize, props.pageNumber * props.pageSize + props.pageSize)
                             .map((row) => {
                                 return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
@@ -63,8 +51,9 @@ export default function StickyHeadTable(props) {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {props.rows.length} - {props.pageSize} - {props.pageNumber}
             <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
+                rowsPerPageOptions={[5, 10, 25, 100]}
                 component="div"
                 count={props.rows.length}
                 rowsPerPage={props.pageSize}

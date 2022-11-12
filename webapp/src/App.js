@@ -14,6 +14,7 @@ import { Home } from './pages/Home';
 import NotFound from './pages/NotFound';
 import Product from './pages/Product';
 import ProductDetail from './pages/ProductDetail';
+import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 
 const ProductPage = lazy(() => import('./pages/admin/page/ProductPage'));
@@ -33,7 +34,8 @@ function App() {
         >
           <Routes>
             <Route path="" element={<Home />} />
-            <Route path="sign-up" element={< SignUp />} />
+            <Route path="sign-up" element={< SignIn />} />
+            <Route path="sign-in" element={< SignUp />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="product" element={<Product />} />

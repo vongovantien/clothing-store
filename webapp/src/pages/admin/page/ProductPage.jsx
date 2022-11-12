@@ -1,11 +1,11 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import ImportExportIcon from '@mui/icons-material/ImportExport';
-import { Button, Container, Stack } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import StickyHeadTable from '../../../components/StickyHeadTable';
-import { ProductConstants } from '../../../utils/constants/ProductContants';
-import FormAddProduct from '../components/FormAddProduct';
+import FormAddProduct from "@components/FormAddProduct";
+import StickyHeadTable from "@components/StickyHeadTable";
+import { getProductPaging } from "@features/products/productSlice";
+import { Button, Container, Stack } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { ProductConstants } from "src/utils/constants/ProductContants";
+
 
 
 const columns = [
@@ -21,20 +21,20 @@ const ProductPage = () => {
     const [show, setShow] = useState(false)
     const [productList, setProductList] = useState([])
     const [pageSize, setPageSize] = useState(5)
-    const [pageNumber, setPageNumber] = useState(0)
+    const [pageNumber, setPageNumber] = useState(1)
     const dispatch = useDispatch()
     useEffect(() => {
-        getProductList();
-    }, [])
+        getProductList(pageSize, pageNumber);
+    }, [pageSize, pageNumber])
 
-    const getProductList = async () => {
-        try {
-            let products = dispatch(getProductPaging)
-            console.log(products)
-            setProductList(products.data)
-        } catch (error) {
-            console.log(error);
-        }
+    const getProductList = async (pageSize, pageNumber) => {
+
+        dispatch(getProductPaging({ pageSize, pageNumber }))
+            .unwrap()
+            .then((res) => {
+                setProductList(res.data)
+            })
+            .catch(res => console.error(res))
     }
 
     const handleOpenForm = () => {
@@ -45,6 +45,7 @@ const ProductPage = () => {
         switch (type) {
             case ProductConstants.PAGE_SIZE:
                 setPageSize(value)
+                setPageNumber(1);
                 break;
             case ProductConstants.PAGE_NUMBER:
                 setPageNumber(value)
@@ -58,13 +59,13 @@ const ProductPage = () => {
         <div>
             <FormAddProduct show={show} handleOpenForm={handleOpenForm} />
             <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={2} mr={2}>
-                <Button variant="contained" startIcon={<AddCircleOutlineIcon />} onClick={() => handleOpenForm()}>Thêm mới sản phẩm</Button>
-                <Button variant="contained" startIcon={<ImportExportIcon />}>Import</Button>
+                {/* <Button variant="contained" startIcon={<AddCircleOutlineIcon />} onClick={() => handleOpenForm()}>Thêm mới sản phẩm</Button>
+                <Button variant="contained" startIcon={<ImportExportIcon />}>Import</Button> */}
                 <Button variant="contained">Export</Button>
             </Stack>
             <h1 style={{ textAlign: "center" }}>Danh sách sản phẩm</h1>
             <Container>
-                <StickyHeadTable columns={columns} rows={productList} pageSize={pageSize} pageNumber={pageNumber} handlePaging={handlePaging} />
+                <StickyHeadTable columns={columns} rows={productList} pageSize={pageSize} pageNumber={pageNumber - 1} handlePaging={handlePaging} />
             </Container>
         </div >
     )

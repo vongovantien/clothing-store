@@ -5,37 +5,50 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import CustomArrows from '../components/Carousel';
 import ItemCard from '../components/ItemCard';
-import { products } from '../fakeData';
 import { getHotProduct } from '../features/products/productSlice';
 
 export const Home = () => {
-	const [productList, setProductList] = useState([]);
+	console.log("abc");
+	const [hotProductList, setHotProductList] = useState([]);
+	const [productByTypeList, setProductByTypeList] = useState([]);
 	const dispatch = useDispatch();
 	const [pageSize, setPageSize] = useState(4)
 	const [pageNumber, setPageNumber] = useState(1)
 
+	//tab
+	const [productType, setProductType] = useState('sale-product');
+
+	const handleChange = (event, newValue) => {
+		setProductType(newValue);
+	};
 	useEffect(() => {
 		getHotProductList();
-	}, [])
+	}, [pageNumber])
+
+	useEffect(() => {
+		getProductByType();
+	}, [productType])
 
 	const getHotProductList = async () => {
 		dispatch(getHotProduct({ pageSize, pageNumber }))
 			.unwrap()
 			.then((res) => {
-				setProductList(res)
+				setHotProductList(res)
+			})
+			.catch(res => console.error(res))
+	};
+
+	const getProductByType = async () => {
+		dispatch(getHotProduct({ pageSize, pageNumber }))
+			.unwrap()
+			.then((res) => {
+				setProductByTypeList(res.data)
 			})
 			.catch(res => console.error(res))
 	};
 	const onHandlePaging = (evt, value) => {
-		console.log(value)
-
+		setPageNumber(value)
 	}
-	//tab
-	const [value, setValue] = React.useState('1');
-
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
 
 	return (
 		<>
@@ -52,58 +65,25 @@ export const Home = () => {
 							justifyItems="center"
 							style={{ marginTop: "80px" }}
 						>
-							{!!productList.data && productList.data.map(item =>
+							{!!hotProductList.data && hotProductList.data.map(item =>
 								<Grid key={item.id} item xs={12} sm={6} md={3}>
 									<ItemCard prop={item} />
 								</Grid>
 							)}
-							<Pagination count={productList.totalCount} color="primary" style={{ padding: "20px 0", margin: "0 auto" }} onChange={onHandlePaging} />
 						</Grid>
 					</Grid>
+					<Pagination count={hotProductList.totalPages} color="primary" style={{ padding: "20px 0", margin: "0 auto" }} onChange={onHandlePaging} />
 				</Grid>
 				<Box sx={{ width: '100%', typography: 'body1' }}>
-					<TabContext value={value}>
+					<TabContext value={productType}>
 						<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 							<TabList onChange={handleChange} aria-label="lab API tabs example">
-								<Tab label="New Product" value="1" />
-								<Tab label="OnSale" value="2" />
-								<Tab label="Feature Product" value="3" />
+								<Tab label="New Product" value="new-product" />
+								<Tab label="OnSale" value="sale-product" />
+								<Tab label="Feature Product" value="feature-product" />
 							</TabList>
 						</Box>
-						<TabPanel value="1">
-							<Grid container spacing={2}>
-								<Grid item xs={12}><Grid
-									container
-									spacing={4}
-									justifyItems="center"
-									style={{ marginTop: "10px" }}
-								>
-									{products && products.map(item =>
-										<Grid key={item.id} item xs={12} sm={6} md={3}>
-											<ItemCard prop={item} />
-										</Grid>
-									)}
-								</Grid>
-								</Grid>
-							</Grid>
-						</TabPanel>
-						<TabPanel value="2"><Grid container spacing={2}>
-							<Grid item xs={12}><Grid
-								container
-								spacing={4}
-								justifyItems="center"
-								style={{ marginTop: "10px" }}
-							>
-								{products && products.map(item =>
-									<Grid key={item.id} item xs={12} sm={6} md={3}>
-										<ItemCard prop={item} />
-									</Grid>
-								)}
-							</Grid>
-							</Grid>
-						</Grid>
-						</TabPanel>
-						<TabPanel value="3">
+						<TabPanel value="new-product">
 							<Grid container spacing={2}>
 								<Grid item xs={12}>
 									<Grid
@@ -112,7 +92,41 @@ export const Home = () => {
 										justifyItems="center"
 										style={{ marginTop: "10px" }}
 									>
-										{products && products.map(item =>
+										{!!productByTypeList.data && productByTypeList.data.map(item =>
+											<Grid key={item.id} item xs={12} sm={6} md={3}>
+												<ItemCard prop={item} />
+											</Grid>
+										)}
+									</Grid>
+								</Grid>
+							</Grid>
+						</TabPanel>
+						<TabPanel value="sale-product"><Grid container spacing={2}>
+							<Grid item xs={12}><Grid
+								container
+								spacing={4}
+								justifyItems="center"
+								style={{ marginTop: "10px" }}
+							>
+								{!!productByTypeList.data && productByTypeList.data.map(item =>
+									<Grid key={item.id} item xs={12} sm={6} md={3}>
+										<ItemCard prop={item} />
+									</Grid>
+								)}
+							</Grid>
+							</Grid>
+						</Grid>
+						</TabPanel>
+						<TabPanel value="feature-product">
+							<Grid container spacing={2}>
+								<Grid item xs={12}>
+									<Grid
+										container
+										spacing={4}
+										justifyItems="center"
+										style={{ marginTop: "10px" }}
+									>
+										{!!productByTypeList.data && productByTypeList.data.map(item =>
 											<Grid key={item.id} item xs={12} sm={6} md={3}>
 												<ItemCard prop={item} />
 											</Grid>

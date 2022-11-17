@@ -3,6 +3,8 @@ import productService from "../../services/product.service";
 
 const initialState = {
     products: [],
+    loading: false,
+    error: null
 };
 
 
@@ -67,9 +69,19 @@ export const productSlice = createSlice({
     name: 'products',
     initialState,
     extraReducers: {
-        [getAllProduct.fulfilled]: (state, action) => {
-            return [...action.payload];
+        [getHotProduct.fulfilled]: (state, action) => {
+            state.loafing = true
         },
+        [getHotProduct.fulfilled]: (state, action) => {
+            state.loafing = false
+            state.products = [action.payload]
+        },
+        [getHotProduct.rejected]: (state, action) => {
+            state.loafing = false
+            state.error = action.payload
+        },
+
+
         [createProduct.fulfilled]: (state, action) => {
             console.log(state)
             state.products.push(action.payload);
@@ -88,16 +100,7 @@ export const productSlice = createSlice({
         [deleteProduct.fulfilled]: (state, action) => {
             return [];
         },
-        // [findTutorialsByTitle.fulfilled]: (state, action) => {
-        //     return [...action.payload];
-        // },
     }
 })
 
-
-const { reducer } = productSlice;
-export default reducer;
-
-// export const { addProduct } = productSlice.actions;
-// export const selectProduct = (state) => state.products;
-// export default productSlice.reducer;
+export default productSlice.reducer;

@@ -5,9 +5,9 @@ class CategoryService {
         return http.get("/Category");
     }
 
-    getProductPaging(body) {
-        return http.get("/Category/GetProductPaging", body);
-    }
+    // getProductPaging(body) {
+    //     return http.get("/Category/GetProductPaging", body);
+    // }
 
     get(id) {
         return http.get(`/Category/${id}`);

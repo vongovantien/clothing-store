@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2CHYLOuu90f7cECfDeEGrlO4YCXCHiKRw4xHJKiSIFPeMjRcVex9aZwxzd1fBDlr71iNxu6SYhZW71pR4TkaHw==",
+  "dgSpecHash": "LJ1cnAed9BIuiQfiwHMExePkqSjGNUxLW+ip9cAT40aCY59+DRvMc2ZimWm3fjxMLmvvWQEXobZwlULZLSfj3g==",
   "success": true,
   "projectFilePath": "D:\\repo\\StoreApp\\WebAPI\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\vongo\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
     "C:\\Users\\vongo\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\vongo\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\vongo\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",

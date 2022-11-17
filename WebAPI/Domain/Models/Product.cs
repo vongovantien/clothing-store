@@ -7,7 +7,8 @@ namespace Domain.Models
     {
         public Product()
         {
-            ProductTags = new HashSet<ProductTag>();
+            CardItems = new HashSet<CardItem>();
+            ProductImages = new HashSet<ProductImage>();
         }
 
         public int Id { get; set; }
@@ -22,7 +23,11 @@ namespace Domain.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
+        public int? MenuId { get; set; }
 
-        public virtual ICollection<ProductTag> ProductTags { get; set; }
+        public virtual Category? Category { get; set; }
+        public virtual Menu? Menu { get; set; }
+        public virtual ICollection<CardItem> CardItems { get; set; }
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
     }
 }

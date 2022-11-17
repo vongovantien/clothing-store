@@ -1,7 +1,7 @@
-import { Grid } from '@mui/material'
-import { Container } from '@mui/system'
-import { Outlet } from 'react-router-dom'
-import CustomizedAccordions from '../../components/AdminNavLeft'
+import { Grid } from '@mui/material';
+import { Container } from '@mui/system';
+import { CustomizedAccordions } from 'components/AdminNavLeft';
+import { Outlet } from 'react-router-dom';
 
 
 export const DashBoard = () => {

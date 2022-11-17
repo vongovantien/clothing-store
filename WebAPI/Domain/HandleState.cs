@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Localization;
-
-namespace WebAPI.Extensions
+﻿namespace Domain
 {
     public class HandleState
     {
@@ -49,17 +47,17 @@ namespace WebAPI.Extensions
             Message = message;
         }
 
-        public HandleState(bool isSuccess, LocalizedString message)
-        {
-            Success = isSuccess;
-            Message = message;
-        }
+        //public HandleState(bool isSuccess, LocalizedString message)
+        //{
+        //    Success = isSuccess;
+        //    Message = message;
+        //}
 
-        public HandleState(LocalizedString message)
-        {
-            Success = false;
-            Message = message;
-        }
+        //public HandleState(LocalizedString message)
+        //{
+        //    Success = false;
+        //    Message = message;
+        //}
 
         public HandleState(object message)
         {

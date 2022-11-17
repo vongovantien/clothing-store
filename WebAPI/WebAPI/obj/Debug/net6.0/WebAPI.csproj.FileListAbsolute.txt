@@ -892,3 +892,9 @@ D:\repo\StoreApp\WebAPI\WebAPI\obj\Debug\net6.0\scopedcss\bundle\WebAPI.styles.c
 D:\repo\StoreApp\WebAPI\WebAPI\obj\Debug\net6.0\WebAPI.csproj.CopyComplete
 D:\repo\StoreApp\WebAPI\WebAPI\obj\Debug\net6.0\WebAPI.genruntimeconfig.cache
 D:\repo\StoreApp\WebAPI\WebAPI\obj\Debug\net6.0\ref\WebAPI.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\EPPlus.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\EPPlus.Interfaces.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\EPPlus.System.Drawing.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll

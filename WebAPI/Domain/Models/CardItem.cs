@@ -15,5 +15,8 @@ namespace Domain.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string? Note { get; set; }
+
+        public virtual Cart? Cart { get; set; }
+        public virtual Product? Product { get; set; }
     }
 }

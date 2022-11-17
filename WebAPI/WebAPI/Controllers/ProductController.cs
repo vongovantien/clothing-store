@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using Domain;
 using Domain.Models;
 using Domain.UnitOfWork;
 using Domain.ViewModel;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
+using Microsoft.EntityFrameworkCore;
 using WebAPI.Extensions;
+using WebAPI.Services.CloudStorageService;
 
 namespace WebAPI.Controllers
 {
@@ -12,12 +16,14 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private ICloudStorageService cloudStorageService;
         private IUnitOfWork _repository;
         private IMapper _mapper;
-        public ProductController(IUnitOfWork repository, IMapper mapper)
+        public ProductController(IUnitOfWork repository, IMapper mapper, ICloudStorageService cloudStorage)
         {
             _repository = repository;
             _mapper = mapper;
+            cloudStorageService = cloudStorage;
         }
 
         [HttpGet("GetAll")]
@@ -99,5 +105,62 @@ namespace WebAPI.Controllers
             await _repository.CommitAsync();
             return Ok();
         }
+
+        private string GenerateFileNameToSave(string incomingFileName)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(incomingFileName);
+            var extension = Path.GetExtension(incomingFileName);
+            return $"{fileName}-{DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss")}{extension}";
+        }
+
+        [HttpPost("uploadFile")]
+        public async Task<IActionResult> UploadFile(int id, [FromForm]UploadFileModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.file != null)
+                {
+                    model.SavedFileName = GenerateFileNameToSave(model.file.FileName);
+                    model.SavedUrl = await cloudStorageService.UploadFileAsync(model.file, model.SavedFileName);
+                }
+            }
+            HandleState hs = await _repository.ProductRepository.UploadFile(id, model);
+
+            return Ok(hs);
+        }
+
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportProduct([FromForm] IFormFile formFile)
+        {
+            if (formFile == null || formFile.Length <= 0)
+            {
+                return NotFound();
+            }
+            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest();
+            }
+    
+            HandleState hs = await _repository.ProductRepository.ImportProduct(formFile);
+
+            return Ok(hs);
+        }
+        [HttpPost("export")]
+        public async Task<IActionResult> ExportProduct([FromForm] IFormFile formFile)
+        {
+            if (formFile == null || formFile.Length <= 0)
+            {
+                return NotFound();
+            }
+            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest();
+            }
+
+            HandleState hs = await _repository.ProductRepository.ImportProduct(formFile);
+
+            return Ok(hs);
+        }
     }
 }
+    

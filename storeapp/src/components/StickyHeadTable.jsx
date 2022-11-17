@@ -1,3 +1,6 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
+import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,6 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { Stack } from '@mui/system';
 import { ProductConstants } from '../constants/ProductConstants';
 
 export default function StickyHeadTable(props) {
@@ -30,20 +34,25 @@ export default function StickyHeadTable(props) {
                         {props.rows && props.rows.slice(props.pageNumber * props.pageSize, props.pageNumber * props.pageSize + props.pageSize)
                             .map((row) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                                        {/* <TableCell>
-                                            abc
-                                        </TableCell> */}
-                                        {props.columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id}>
-                                                    {column.format && typeof value === 'number'
-                                                        ? column.format(value)
-                                                        : value}
-                                                </TableCell>
-                                            );
-                                        })}
+                                    <TableRow hover key={row.id}>
+                                        <TableCell>
+                                            <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={2} mr={2}>
+                                                <Button variant="outlined" color="success" onClick={() => props.handleDetail(row.id)}><InfoIcon /></Button>
+                                                <Button variant="outlined" color="error" onClick={() => props.handleDelete(row.id)}><DeleteIcon /></Button>
+                                            </Stack>
+                                        </TableCell>
+                                        {
+                                            props.columns.filter(s => !!s.id).map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id}>
+                                                        {column.format && typeof value === 'number'
+                                                            ? column.format(value)
+                                                            : value}
+                                                    </TableCell>
+                                                );
+                                            })
+                                        }
                                     </TableRow>
                                 );
                             })}
@@ -51,13 +60,14 @@ export default function StickyHeadTable(props) {
                 </Table>
             </TableContainer>
             {props.rows.length} - {props.pageSize} - {props.pageNumber}
-            <TablePagination
+            < TablePagination
                 rowsPerPageOptions={[5, 10, 25, 100]}
                 component="div"
                 count={props.rows.length}
                 rowsPerPage={props.pageSize}
                 page={props.pageNumber}
-                onPageChange={(event, value) => props.handlePaging(value, ProductConstants.PAGE_NUMBER)}
+                onPageChange={(event, value) => props.handlePaging(value, ProductConstants.PAGE_NUMBER)
+                }
                 onRowsPerPageChange={(event) => props.handlePaging(event.target.value, ProductConstants.PAGE_SIZE)}
             />
         </Paper >

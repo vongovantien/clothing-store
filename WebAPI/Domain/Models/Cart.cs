@@ -5,8 +5,13 @@ namespace Domain.Models
 {
     public partial class Cart
     {
-        public string? Id { get; set; }
-        public string? UserId { get; set; }
+        public Cart()
+        {
+            CardItems = new HashSet<CardItem>();
+        }
+
+        public int Id { get; set; }
+        public int? UserId { get; set; }
         public string? SessionId { get; set; }
         public string? Token { get; set; }
         public string? Status { get; set; }
@@ -22,5 +27,8 @@ namespace Domain.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string? Note { get; set; }
+
+        public virtual User? User { get; set; }
+        public virtual ICollection<CardItem> CardItems { get; set; }
     }
 }

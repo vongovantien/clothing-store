@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
+using Domain;
 using Domain.Models;
 using Domain.Repositories;
 using Domain.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 
 namespace Infrastructure.Repositories
 {
@@ -37,6 +42,45 @@ namespace Infrastructure.Repositories
         public Task<IQueryable<ProductViewModel>> GetProductByCriteria(ProductCriteria criteria)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<HandleState> UploadFile(int id, UploadFileModel model)
+        {
+            var hs = new HandleState();
+            var existItem = await _dbContext.Products.FirstAsync(x => x.Id == id);
+
+            var newImage = new ProductImage();
+            newImage.Url = model.SavedUrl;
+            newImage.ProductId = existItem.Id;
+            await _dbContext.ProductImages.AddAsync(newImage);
+            await _dbContext.SaveChangesAsync();
+            return hs;
+        }
+        public async Task<HandleState> ImportProduct(IFormFile file)
+        {
+            var hs = new HandleState();
+            var listItem = new List<Product>();
+
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    var rowCount = worksheet.Dimension.Rows;
+
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        listItem.Add(new Product
+                        {
+                            Title = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                            Price = int.Parse(worksheet.Cells[row, 2].Value.ToString().Trim()),
+                        });
+                    }
+                }
+            }
+            return hs;
         }
     }
 }

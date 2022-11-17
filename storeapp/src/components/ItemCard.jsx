@@ -5,8 +5,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
+
 export default function ItemCard({ prop }) {
     return (
         <Card sx={{ maxWidth: 345 }}>

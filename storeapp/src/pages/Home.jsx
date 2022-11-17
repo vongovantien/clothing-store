@@ -1,42 +1,32 @@
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box, Grid, Pagination, Tab } from '@mui/material';
-import { Container } from '@mui/system';
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import CustomArrows from '../components/Carousel';
-import ItemCard from '../components/ItemCard';
-import { getHotProduct } from '../features/products/productSlice';
+import { Box, CircularProgress, Container, Grid, Pagination, Tab } from '@mui/material';
+import CustomArrows from 'components/Carousel';
+import ItemCard from 'components/ItemCard';
+import { getHotProduct } from 'features/products/productSlice';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const Home = () => {
-	console.log("abc");
-	const [hotProductList, setHotProductList] = useState([]);
 	const [productByTypeList, setProductByTypeList] = useState([]);
 	const dispatch = useDispatch();
 	const [pageSize, setPageSize] = useState(4)
 	const [pageNumber, setPageNumber] = useState(1)
 
+	const { loading, error, products } = useSelector((state) => state.products);
 	//tab
 	const [productType, setProductType] = useState('sale-product');
 
 	const handleChange = (event, newValue) => {
 		setProductType(newValue);
 	};
+
 	useEffect(() => {
-		getHotProductList();
-	}, [pageNumber])
+		dispatch(getHotProduct({ pageSize, pageNumber }))
+	}, [])
 
 	useEffect(() => {
 		getProductByType();
-	}, [productType])
-
-	const getHotProductList = async () => {
-		dispatch(getHotProduct({ pageSize, pageNumber }))
-			.unwrap()
-			.then((res) => {
-				setHotProductList(res)
-			})
-			.catch(res => console.error(res))
-	};
+	}, [])
 
 	const getProductByType = async () => {
 		dispatch(getHotProduct({ pageSize, pageNumber }))
@@ -65,14 +55,15 @@ export const Home = () => {
 							justifyItems="center"
 							style={{ marginTop: "80px" }}
 						>
-							{!!hotProductList.data && hotProductList.data.map(item =>
+
+							{loading ? <CircularProgress /> : !!products.data && products.data.map(item =>
 								<Grid key={item.id} item xs={12} sm={6} md={3}>
 									<ItemCard prop={item} />
 								</Grid>
 							)}
 						</Grid>
 					</Grid>
-					<Pagination count={hotProductList.totalPages} color="primary" style={{ padding: "20px 0", margin: "0 auto" }} onChange={onHandlePaging} />
+					<Pagination count={products.totalPages} color="primary" style={{ padding: "20px 0", margin: "0 auto" }} onChange={onHandlePaging} />
 				</Grid>
 				<Box sx={{ width: '100%', typography: 'body1' }}>
 					<TabContext value={productType}>

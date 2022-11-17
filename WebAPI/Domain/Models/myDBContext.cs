@@ -20,8 +20,11 @@ namespace Domain.Models
         public virtual DbSet<Cart> Carts { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
+        public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<Employee> Employees { get; set; } = null!;
         public virtual DbSet<Menu> Menus { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
+        public virtual DbSet<ProductImage> ProductImages { get; set; } = null!;
         public virtual DbSet<ProductTag> ProductTags { get; set; } = null!;
         public virtual DbSet<Tag> Tags { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -62,13 +65,25 @@ namespace Domain.Models
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Cart)
+                    .WithMany(p => p.CardItems)
+                    .HasForeignKey(d => d.CartId)
+                    .HasConstraintName("FK_CardItem_Cart");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.CardItems)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_CardItem_Product");
             });
 
             modelBuilder.Entity<Cart>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Cart");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID");
 
                 entity.Property(e => e.Address)
                     .HasMaxLength(10)
@@ -90,11 +105,6 @@ namespace Domain.Models
 
                 entity.Property(e => e.FirstName)
                     .HasMaxLength(10)
-                    .IsFixedLength();
-
-                entity.Property(e => e.Id)
-                    .HasMaxLength(10)
-                    .HasColumnName("ID")
                     .IsFixedLength();
 
                 entity.Property(e => e.LastName)
@@ -128,10 +138,12 @@ namespace Domain.Models
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
-                entity.Property(e => e.UserId)
-                    .HasMaxLength(10)
-                    .HasColumnName("UserID")
-                    .IsFixedLength();
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Carts)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Cart_User");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -209,6 +221,57 @@ namespace Domain.Models
                     .HasConstraintName("FK_Comment_User");
             });
 
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Customer");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Number)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+            });
+
+            modelBuilder.Entity<Employee>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Employee");
+
+                entity.Property(e => e.BirthDay)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Code)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(10)
+                    .HasColumnName("UserID")
+                    .IsFixedLength();
+            });
+
             modelBuilder.Entity<Menu>(entity =>
             {
                 entity.ToTable("Menu");
@@ -244,6 +307,8 @@ namespace Domain.Models
                     .HasMaxLength(200)
                     .IsFixedLength();
 
+                entity.Property(e => e.MenuId).HasColumnName("MenuID");
+
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.PublishedAt).HasColumnType("datetime");
@@ -259,6 +324,30 @@ namespace Domain.Models
                 entity.Property(e => e.Title).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_Product_Category");
+
+                entity.HasOne(d => d.Menu)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.MenuId)
+                    .HasConstraintName("FK_Product_Menu");
+            });
+
+            modelBuilder.Entity<ProductImage>(entity =>
+            {
+                entity.ToTable("ProductImage");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ProductId).HasColumnName("ProductID");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.ProductImages)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_ProductImage_Product");
             });
 
             modelBuilder.Entity<ProductTag>(entity =>
@@ -272,11 +361,6 @@ namespace Domain.Models
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
                 entity.Property(e => e.TagId).HasColumnName("TagID");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.ProductTags)
-                    .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK_ProductTag_Product");
 
                 entity.HasOne(d => d.Tag)
                     .WithMany(p => p.ProductTags)

@@ -1,4 +1,5 @@
 import { Box, CircularProgress } from '@mui/material';
+import figlet from 'figlet';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -16,6 +17,16 @@ import Product from './pages/Product';
 import ProductDetail from './pages/ProductDetail';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
+
+figlet.metadata('Standard', function (err, options, headerComment) {
+  if (err) {
+    console.log('something went wrong...');
+    console.dir(err);
+    return;
+  }
+  console.dir(options);
+  console.log(headerComment);
+});
 
 const ProductPage = lazy(() => import('./pages/admin/page/ProductPage'));
 function App() {

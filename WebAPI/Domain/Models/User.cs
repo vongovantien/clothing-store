@@ -5,6 +5,11 @@ namespace Domain.Models
 {
     public partial class User
     {
+        public User()
+        {
+            Carts = new HashSet<Cart>();
+        }
+
         public int Id { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
@@ -19,5 +24,7 @@ namespace Domain.Models
         public string? Intro { get; set; }
         public string? Profile { get; set; }
         public string? Avatar { get; set; }
+
+        public virtual ICollection<Cart> Carts { get; set; }
     }
 }

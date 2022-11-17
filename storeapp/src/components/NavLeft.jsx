@@ -1,6 +1,6 @@
-import { ProductConstants } from '@constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import { ProductConstants } from 'constants/ProductConstants';
 import { useState } from 'react';
 
 const NavLeft = (props) => {

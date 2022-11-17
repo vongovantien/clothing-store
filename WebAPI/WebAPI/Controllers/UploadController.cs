@@ -24,8 +24,8 @@ namespace WebAPI.Controllers
             // START: Handling file upload to GCS
             if (file != null)
             {
-                //GenerateFileNameToSave(file.FileName);
-                await _cloudStorageService.UploadFileAsync(file, "tiendeptrai");
+                GenerateFileNameToSave(file.FileName);
+                var result = await _cloudStorageService.UploadFileAsync(file, "tiendeptrai");
             }
             // END: Handling file upload to GCS
             //_context.Add(animal);

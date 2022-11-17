@@ -1,10 +1,5 @@
 {
     "compilerOptions": {
-        "baseUrl": "./",
-        "paths": {
-            "@constants": [
-                "src/constants"
-            ]
-        }
+        "baseUrl": "./src"
     }
 }

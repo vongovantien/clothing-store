@@ -4,5 +4,7 @@ namespace Domain.ViewModel
 {
     public class UserViewModel : User
     {
+        public string Token { get; set; }
     }
+
 }

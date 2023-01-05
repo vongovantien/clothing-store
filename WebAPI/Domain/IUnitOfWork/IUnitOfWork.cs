@@ -8,6 +8,7 @@ namespace Domain.UnitOfWork
         IProductRepository ProductRepository { get; }
         IMenuRepository MenuRepository { get; }
         ITagRepository TagRepository { get; }
+        IUserRepository UserRepository { get; }
         void Commit();
         void Rollback();
         Task CommitAsync();

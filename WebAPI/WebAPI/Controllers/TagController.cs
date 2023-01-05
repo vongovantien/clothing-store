@@ -14,12 +14,12 @@ namespace WebAPI.Controllers
         private readonly IMapper _mapper;
         ////private readonly IStringLocalizer<PostsController> stringLocalizer;
         private readonly IStringLocalizer<SharedResource> sharedResourceLocalizer;
-        public TagController(IUnitOfWork repository, IMapper mapper, IStringLocalizer<SharedResource> sharedResourceLocalizer)
+        public TagController(IUnitOfWork repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
-            // this.stringLocalizer = postsControllerLocalizer;
-            this.sharedResourceLocalizer = sharedResourceLocalizer;
+            //this.stringLocalizer = postsControllerLocalizer;
+            //this.sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
         // GET: api/Tag

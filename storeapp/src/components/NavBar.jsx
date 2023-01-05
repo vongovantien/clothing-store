@@ -1,7 +1,6 @@
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -11,20 +10,32 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+
+import { auth, logInWithEmailAndPassword, logout } from 'firebaseConfig';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import menuService from '../services/menu.service';
-// const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import { toast } from 'react-toastify';
+
+const settings = ['Profile', 'Account', 'Dashboard'];
 
 export default function NavBar() {
     const [anchorElNav, setAnchorElNav] = useState();
     const [anchorElUser, setAnchorElUser] = useState();
     const [pages, setPages] = useState([]);
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    //const { data, loading, error } = useSelector((state) => state.user)
+    const [user, loading, error] = useAuthState(auth);
     useEffect(() => {
+        if(!user) {
+            navigate("/sign-up")
+            toast.success("Log out successfully")
+        }
         getMenu();
-    }, [])
+    }, [dispatch, user])
 
     const getMenu = async () => {
         try {
@@ -47,10 +58,9 @@ export default function NavBar() {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (evt) => {
         setAnchorElUser(null);
     };
-
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -127,7 +137,6 @@ export default function NavBar() {
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page, index) => (
@@ -146,7 +155,7 @@ export default function NavBar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                {user?.displayName}
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -170,6 +179,9 @@ export default function NavBar() {
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
+                            <MenuItem onClick={logout}>
+                                <Typography textAlign="center">Log out</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>

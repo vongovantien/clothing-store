@@ -26,12 +26,14 @@ namespace WebAPI.Extensions
         public static void ConfigureSqlServiceContext(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config.GetConnectionString("MyConnectionString");
-            services.AddDbContext<myDBContext>(o => o.UseSqlServer(connectionString));
+            services.AddDbContext<myDBContext>(o => o.UseSqlServer(connectionString), ServiceLifetime.Transient);
+
         }
 
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
             //services.AddTransient<IMailService, MailService>();
 
         }

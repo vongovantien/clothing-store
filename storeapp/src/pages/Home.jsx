@@ -2,17 +2,17 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, CircularProgress, Container, Grid, Pagination, Tab } from '@mui/material';
 import CustomArrows from 'components/Carousel';
 import ItemCard from 'components/ItemCard';
-import { getHotProduct } from 'features/products/productSlice';
+import { getHotProduct } from 'features/productSlice';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-export const Home = () => {
+export const Home = ({ user }) => {
 	const [productByTypeList, setProductByTypeList] = useState([]);
 	const dispatch = useDispatch();
 	const [pageSize, setPageSize] = useState(4)
 	const [pageNumber, setPageNumber] = useState(1)
 
-	const { loading, error, products } = useSelector((state) => state.products);
+	const { loading, error, products } = useSelector((state) => state.product);
 	//tab
 	const [productType, setProductType] = useState('sale-product');
 

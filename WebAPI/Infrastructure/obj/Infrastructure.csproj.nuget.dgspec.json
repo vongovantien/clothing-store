@@ -117,6 +117,14 @@
               "target": "Package",
               "version": "[12.0.0, )"
             },
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.97.0, )"
+            },
             "EPPlus": {
               "target": "Package",
               "version": "[6.1.0, )"

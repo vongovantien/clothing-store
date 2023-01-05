@@ -6,7 +6,7 @@ import { confirm } from 'components/ConfirmAlert';
 import FormAddProduct from "components/FormAddProduct";
 import StickyHeadTable from "components/StickyHeadTable";
 import { ProductConstants } from "constants/ProductConstants";
-import { getProductPaging } from "features/products/productSlice";
+import { getProductPaging } from "features/productSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from 'react-toastify';

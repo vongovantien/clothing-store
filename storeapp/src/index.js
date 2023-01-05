@@ -6,7 +6,19 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import store from './store/store';
 
+import figlet from 'figlet';
+import standard from 'figlet/importable-fonts/Standard.js'
 
+figlet.parseFont('Standard', standard);
+
+figlet.text('E - Commercial', {
+    font: 'Standard',
+    horizontalLayout: 'default',
+    verticalLayout: 'default',
+    width: 80,
+}, function(err, data) {
+    console.log(data);
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

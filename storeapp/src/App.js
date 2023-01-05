@@ -1,5 +1,4 @@
 import { Box, CircularProgress } from '@mui/material';
-import figlet from 'figlet';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -18,22 +17,22 @@ import ProductDetail from './pages/ProductDetail';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 
-figlet.metadata('Standard', function (err, options, headerComment) {
-  if (err) {
-    console.log('something went wrong...');
-    console.dir(err);
-    return;
-  }
-  console.dir(options);
-  console.log(headerComment);
-});
-
 const ProductPage = lazy(() => import('./pages/admin/page/ProductPage'));
 function App() {
-  //useGaTracker();
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <BrowserRouter>
         <NavBar />
         <Suspense

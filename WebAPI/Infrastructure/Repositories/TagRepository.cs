@@ -1,11 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
@@ -13,7 +8,7 @@ namespace Infrastructure.Repositories
     {
         public TagRepository(myDBContext dbContext) : base(dbContext)
         {
-           
+
         }
         public async Task<Tag> UpdateTagAsync(int id, Tag model)
         {
@@ -27,7 +22,7 @@ namespace Infrastructure.Repositories
             {
                 throw;
             }
-            
+
         }
     }
 }

@@ -898,3 +898,14 @@ D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\EPPlus.System.Drawing.dll
 D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
 D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
 D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\ClosedXML.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\ExcelNumberFormat.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\Irony.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\SixLabors.Fonts.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\System.IO.Packaging.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\XLParser.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\BCrypt.Net-Next.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\MailKit.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\MimeKit.dll
+D:\repo\StoreApp\WebAPI\WebAPI\bin\Debug\net6.0\BouncyCastle.Crypto.dll

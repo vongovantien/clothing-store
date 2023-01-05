@@ -7,8 +7,12 @@ using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml.Style;
+using OfficeOpenXml;
 using WebAPI.Extensions;
 using WebAPI.Services.CloudStorageService;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.IO;
 
 namespace WebAPI.Controllers
 {
@@ -26,35 +30,35 @@ namespace WebAPI.Controllers
             cloudStorageService = cloudStorage;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("getAll")]
         public async Task<IActionResult> GetAll()
         {
             var data = await _repository.ProductRepository.GetAllAsync();
             return Ok(data);
         }
 
-        [HttpGet("GetProductPaging")]
+        [HttpGet("getProductPaging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] PagingParameters param)
         {
             var data = await _repository.ProductRepository.GetAllPaging(param);
             return Ok(data);
         }
 
-        [HttpGet("GetHotProduct")]
+        [HttpGet("getHotProduct")]
         public async Task<IActionResult> GetHotProduct([FromQuery] PagingParameters param)
         {
             var data = await _repository.ProductRepository.GetAllPaging(param);
             return Ok(data);
         }
 
-        [HttpGet("GetProductByCategory/{cateId}")]
+        [HttpGet("getProductByCategory/{cateId}")]
         public async Task<IActionResult> GetProductByCategoryId(int cateId)
         {
             var products = _repository.ProductRepository.GetAll(x => x.CategoryId == cateId);
             return Ok(products);
         }
 
-        [HttpGet("GetProductByCriteria")]
+        [HttpGet("getProductByCriteria")]
         public async Task<IActionResult> GetProductByCriteria(ProductCriteria criteria)
         {
             var products = _repository.ProductRepository.GetProductByCriteria(criteria);
@@ -114,7 +118,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("uploadFile")]
-        public async Task<IActionResult> UploadFile(int id, [FromForm]UploadFileModel model)
+        public async Task<IActionResult> UploadFile(int id, [FromForm] UploadFileModel model)
         {
             if (ModelState.IsValid)
             {
@@ -129,8 +133,8 @@ namespace WebAPI.Controllers
             return Ok(hs);
         }
 
-        [HttpPost("import")]
-        public async Task<IActionResult> ImportProduct([FromForm] IFormFile formFile)
+        [HttpPost("uploadFileImport")]
+        public async Task<IActionResult> UploadFileImport(IFormFile formFile)
         {
             if (formFile == null || formFile.Length <= 0)
             {
@@ -141,25 +145,61 @@ namespace WebAPI.Controllers
                 return BadRequest();
             }
     
-            HandleState hs = await _repository.ProductRepository.ImportProduct(formFile);
+            var listItem = await _repository.ProductRepository.UploadFileImport(formFile);
 
-            return Ok(hs);
+            return Ok(listItem);
         }
-        [HttpPost("export")]
-        public async Task<IActionResult> ExportProduct([FromForm] IFormFile formFile)
+
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportProduct()
         {
-            if (formFile == null || formFile.Length <= 0)
+            //if (formFile == null || formFile.Length <= 0)
+            //{
+            //    return NotFound();
+            //}
+            //if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            //{
+            //    return BadRequest();
+            //}
+            var products = await _repository.ProductRepository.GetAllAsync();
+            ExcelPackage excel = new ExcelPackage();
+            var workSheet = excel.Workbook.Worksheets.Add("Sheet1");
+            workSheet.TabColor = System.Drawing.Color.Black;
+            workSheet.DefaultRowHeight = 12;
+            //Header of table  
+            //  
+            workSheet.Row(1).Height = 20;
+            workSheet.Row(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Row(1).Style.Font.Bold = true;
+            workSheet.Cells[1, 1].Value = "S.No";
+            workSheet.Cells[1, 2].Value = "Id";
+            workSheet.Cells[1, 3].Value = "Name";
+            workSheet.Cells[1, 4].Value = "Address";
+            //Body of table  
+            //  
+            int recordIndex = 2;
+            foreach (var product in products)
             {
-                return NotFound();
+                workSheet.Cells[recordIndex, 1].Value = (recordIndex - 1).ToString();
+                workSheet.Cells[recordIndex, 2].Value = product;
+                workSheet.Cells[recordIndex, 3].Value = product.Title;
+                workSheet.Cells[recordIndex, 4].Value = product.Description;
+                recordIndex++;
             }
-            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            workSheet.Column(1).AutoFit();
+            workSheet.Column(2).AutoFit();
+            workSheet.Column(3).AutoFit();
+            workSheet.Column(4).AutoFit();
+            using (var memoryStream = new MemoryStream())
             {
-                return BadRequest();
+                excel.SaveAs(memoryStream);
+                var content = memoryStream.ToArray();
+
+                return File(
+                    content,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "productExport.xlsx");
             }
-
-            HandleState hs = await _repository.ProductRepository.ImportProduct(formFile);
-
-            return Ok(hs);
         }
     }
 }

@@ -30,35 +30,11 @@ builder.Services.AddSingleton<ICloudStorageService, CloudStorageService>();
 builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-//config identityserver
-//builder.Services.AddIdentityServer()
-//         .AddInMemoryApiScopes(InMemoryConfig.GetApiScopes())
-//         .AddInMemoryApiResources(InMemoryConfig.GetApiResources())
-//        .AddInMemoryIdentityResources(InMemoryConfig.GetIdentityResources())
-//        .AddTestUsers(InMemoryConfig.GetUsers())
-//        .AddInMemoryClients(InMemoryConfig.GetClients())
-//        .AddDeveloperSigningCredential(); ;
-
-builder.Services.AddAuthentication("Bearer")
-   .AddJwtBearer("Bearer", opt =>
-   {
-       opt.RequireHttpsMetadata = false;
-       opt.Authority = "https://localhost:5001";
-       opt.Audience = "companyApi";
-   });
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("ApiScope", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireClaim("scope", "SampleAPI");
-    });
-});
 
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -68,6 +44,7 @@ builder.Services.AddSwaggerGen(option =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
+
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -75,8 +52,8 @@ builder.Services.AddSwaggerGen(option =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
             new string[]{}

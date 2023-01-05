@@ -398,12 +398,12 @@ namespace Domain.Models
                     .HasMaxLength(50)
                     .IsFixedLength();
 
-                entity.Property(e => e.FirstName)
-                    .HasMaxLength(10)
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
                     .IsFixedLength();
 
-                entity.Property(e => e.Gmail)
-                    .HasMaxLength(50)
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(10)
                     .IsFixedLength();
 
                 entity.Property(e => e.Intro)
@@ -416,12 +416,8 @@ namespace Domain.Models
                     .HasMaxLength(10)
                     .IsFixedLength();
 
-                entity.Property(e => e.Mobile)
+                entity.Property(e => e.Phone)
                     .HasMaxLength(10)
-                    .IsFixedLength();
-
-                entity.Property(e => e.Password)
-                    .HasMaxLength(20)
                     .IsFixedLength();
 
                 entity.Property(e => e.Profile)
@@ -429,10 +425,6 @@ namespace Domain.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.RegisteredAt).HasColumnType("datetime");
-
-                entity.Property(e => e.Username)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
-using Domain;
 using Domain.Models;
 using Domain.Repositories;
 using Domain.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading;
+using WebAPI;
 
 namespace Infrastructure.Repositories
 {
@@ -17,6 +15,16 @@ namespace Infrastructure.Repositories
         public ProductRepository(myDBContext context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
+        }
+
+        public async Task<HandleState> AddNew(ProductModel model)
+        {
+            var newItem = _mapper.Map<Product>(model);
+            newItem.CreatedAt = newItem.UpdatedAt = newItem.PublishedAt = DateTime.Now;
+            await _dbContext.Products.AddAsync(newItem);
+            _dbContext.SaveChanges();
+            var hs = new HandleState();
+            return hs;
         }
 
         public async Task<PagedResponse<List<Product>>> GetAllPaging(PagingParameters param)
@@ -56,11 +64,11 @@ namespace Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return hs;
         }
-        public async Task<HandleState> ImportProduct(IFormFile file)
-        {
-            var hs = new HandleState();
-            var listItem = new List<Product>();
 
+        public async Task<List<ProductImportModel>> UploadFileImport(IFormFile file)
+        {
+            var listProduct = new List<ProductImportModel>();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var stream = new MemoryStream())
             {
                 await file.CopyToAsync(stream);
@@ -70,17 +78,70 @@ namespace Infrastructure.Repositories
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
                     var rowCount = worksheet.Dimension.Rows;
 
-                    for (int row = 2; row <= rowCount; row++)
+                    for (int row = 3; row <= rowCount; row++)
                     {
-                        listItem.Add(new Product
+                        var categoryString = worksheet.Cells[row, 5].Value?.ToString().Trim();
+                        var category = await _dbContext.Categories.FirstAsync(x => x.Name.Contains(categoryString));
+
+                        listProduct.Add(new ProductImportModel
                         {
-                            Title = worksheet.Cells[row, 1].Value.ToString().Trim(),
-                            Price = int.Parse(worksheet.Cells[row, 2].Value.ToString().Trim()),
+                            Code = worksheet.Cells[row, 2].Value?.ToString().Trim(),
+                            Title = worksheet.Cells[row, 3].Value?.ToString().Trim(),
+                            Price = int.Parse(worksheet.Cells[row, 4].Value?.ToString().Trim()),
+                            CategoryId = category.Id,
+                            Description = worksheet.Cells[row, 6].Value?.ToString().Trim(),
+                            Discount = worksheet.Cells[row, 7].Value?.ToString().Trim(),
+                            Quantity = worksheet.Cells[row, 8].Value?.ToString().Trim(),
+                            CreatedAt = DateTime.Now,
+                            PublishedAt = DateTime.Now,
+                            UpdatedAt = DateTime.Now
                         });
                     }
                 }
+
+                var data = await CheckValidImport(listProduct);
+                var totalValidRows = data.Count(x => x.IsValid == true);
+                var results = new { data, totalValidRows };
+                //return results
+                //await _dbContext.AddRangeAsync(listItem);
+                //await _dbContext.SaveChangesAsync();
+                return listProduct;
             }
+        }
+
+        public async Task<HandleState> ProductImport(UploadFileModel model)
+        {
+            var hs = new HandleState();
             return hs;
+        }
+
+        private async Task<List<ProductImportModel>> CheckValidImport(List<ProductImportModel> listModel)
+        {
+            var listProduct = new List<ProductImportModel>();
+            return listProduct;
+        }
+
+        public Task<HandleState> Uploadfile(ProductCriteria criteria)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HandleState> ImportProduct(UploadFileModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IQueryable<ProductViewModel>> ExportProduct()
+        {
+            var listProduct = _dbContext.Products.AsNoTracking();
+
+            var listItem = _mapper.Map<IQueryable<ProductViewModel>>(listProduct);
+            return listItem;
+        }
+
+        Task<HandleState> IProductRepository.ExportProduct()
+        {
+            throw new NotImplementedException();
         }
     }
 }

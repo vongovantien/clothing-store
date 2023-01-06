@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.DataExtensions;
+using Domain.Entities;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

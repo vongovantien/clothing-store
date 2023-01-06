@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Domain.Models;
 using Domain.UnitOfWork;
+using Domain.Entities;
 
 namespace WebAPI.Controllers
 {

@@ -13,6 +13,7 @@ using WebAPI.Extensions;
 using WebAPI.Services.CloudStorageService;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.IO;
+using Domain.Entities;
 
 namespace WebAPI.Controllers
 {
@@ -100,11 +101,14 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
+            var hs = new HandleState();
             var existItem = await _repository.ProductRepository.GetAsync(x => x.Id == id);
             if (existItem == null)
             {
                 return NotFound();
             }
+            
+            //_repository.ProductRepository.Remove(existItem);
             _repository.ProductRepository.Remove(existItem);
             await _repository.CommitAsync();
             return Ok();

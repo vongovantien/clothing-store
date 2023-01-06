@@ -30,10 +30,10 @@ export default function NavBar() {
     //const { data, loading, error } = useSelector((state) => state.user)
     const [user, loading, error] = useAuthState(auth);
     useEffect(() => {
-        if(!user) {
-            navigate("/sign-up")
-            toast.success("Log out successfully")
-        }
+        // if(!user) {
+        //     navigate("/sign-up")
+        //     toast.success("Log out successfully")
+        // }
         getMenu();
     }, [dispatch, user])
 
@@ -50,6 +50,7 @@ export default function NavBar() {
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
+    
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };

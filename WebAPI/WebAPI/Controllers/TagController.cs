@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Entities;
 using Domain.Models;
 using Domain.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;

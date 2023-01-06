@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Entities;
+using Domain.Models;
 using Domain.Repositories;
 
 namespace Infrastructure.Repositories
